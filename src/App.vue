@@ -11,19 +11,19 @@
 
   <ul>
 
-    <li   v-for="(todo, index ) in todos" :key="todo.id">
-      <input :style="{'accent-color': 'cadetblue'}" id="checkbox" type="checkbox" v-model="todo.completed"/>
-      <span :style="{textDecoration:todo.completed ? 'line-through': 'none'}">
-       {{ todo.text }}
-
-</span>
-
-<button @click="removeTodo(index)">x</button>
-
-<!--<div :style="{ width: '100%', height: '2px', backgroundColor: 'gray' }"></div>-->
+     <transition-group name="fade" tag="ul">
+    <li v-for="(todo, index) in todos" :key="todo.id" class="todo-item">
+      <input type="checkbox" v-model="todo.completed" :style="{ accentColor: 'cadetblue' }" />
+      <span :style="{ textDecoration: todo.completed ? 'line-through' : 'none' }">
+        {{ todo.text }}
+      </span>
+      <button  class="delet" @click="removeTodo(index)">x</button>
+     <button class="delet" @click="editTodo(index)">✎</button>
     </li>
+  </transition-group>
+</ul>
+<!--<div :style="{ width: '100%', height: '2px', backgroundColor: 'gray' }"></div>-->
 
-  </ul>
 
   </div>
 
@@ -31,7 +31,7 @@
 </template>
 
 <script setup>
-
+//import child from './child.vue'
 import {ref,watch} from 'vue'
 const newTodo = ref ('')
 const todos = ref ([])
@@ -55,7 +55,11 @@ if (saved){
 watch(todos,(newTodos)=>{
   localStorage.setItem('todos',JSON.stringify(newTodos))
 },{deep:true})
-
+function editTodo(index)
+{ const todo = todos.value[index]
+  const newText = prompt('Измени задачу', todo.text)
+ if (newText !== null && newText.trim() !== '')
+   { todo.text = newText } }
 
 </script>
 <style scoped>
@@ -90,11 +94,22 @@ display: flex;
 justify-content: center;
 box-sizing: border-box;
 gap: 5px;
+margin-top: 10px;
 
 }
 .todo-item {
   display: flex;
-  flex-direction: column; /* чтобы контент и линия были сверху/снизу */
+
   width: 100%;
+}
+.fade-enter-active, .fade-leave-active {
+  transition: all 0.3s ease;
+}
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+.delet{
+  width: 30px;
 }
 </style>
