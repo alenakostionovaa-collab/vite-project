@@ -1,15 +1,3 @@
 <template>
-
- <!--  {{ list }}-->
+  <h1>Child page</h1>
 </template>
-
-
-<script setup>
-
-defineProps({
-    list:{
-        type:String,
-        default:''
-    }
-});
-</script>
