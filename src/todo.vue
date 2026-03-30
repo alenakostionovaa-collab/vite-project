@@ -8,11 +8,7 @@ const newTodo = ref('');
 
 // Вычисляемое свойство: только невыполненные задачи
 const uncompletedTodos = computed(() => {
-	console.log('kkk');
-
-	console.log(store.todos)
-	console.log('kkk');
-	return store.todos.filter(todo => todo.completed === false);
+  return store.todos.filter(todo => todo.completed===false);
 });
 
 function addTodo() {
@@ -20,7 +16,7 @@ function addTodo() {
     store.todos.push({
       id: Date.now(),
       text: newTodo.value,
-      completed: true
+      completed: false
     });
   }
   newTodo.value = '';

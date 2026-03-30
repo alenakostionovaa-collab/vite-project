@@ -1,12 +1,16 @@
 <script setup>
 import { todoStore } from './components/stores/todo';
-import { computed } from 'vue';
+import { computed, watch } from 'vue';
 
 const store = todoStore(); // тот же самый store
 
 const radTodo = computed(() => {
   return store.todos.filter(todo => todo.completed);
 });
+
+watch(store.todos, (newTodos) => {
+  localStorage.setItem('todos', JSON.stringify(newTodos));
+}, { deep: true });
 </script>
 
 <template>
